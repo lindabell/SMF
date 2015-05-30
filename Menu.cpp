@@ -48,7 +48,7 @@ void ShowList(u8 min,u8 max)
             while (1);
         }
 
-        if ((pPage->pItem[0].TypeAndIndex & 0x10)==0)///<如果是使用列表方式
+        if (pPage->DisplayMode!=DISPLAY_MODE_1_COLUMN)
         {
 
                 Lcd_Clr_Scr();
@@ -85,13 +85,13 @@ void ShowPage( const struct PAGE *pPage)
         return; ///<如果没有Item项则不显示Item，直接返回
     }
 
-    if (pPage->pItem[0].TypeAndIndex & 0x10)///<如果是使用列表方式
+    if (pPage->DisplayMode==DISPLAY_MODE_1_COLUMN) //一列显示
     {
         ShowList(0,3);
         SelItemOfList(0);
         pPage->Function(KEY_Special);
     }
-    else
+    else if (pPage->DisplayMode==DISPLAY_MODE_2_COLUMN) //两列显示
     {
         ///取出page中的Item并显示
         for (i=0;i<pPage->ItemNum;i++)
@@ -110,7 +110,7 @@ void ShowPage( const struct PAGE *pPage)
         pPage->Function(KEY_Special);
     }
 
-};
+}
 
 /**
 显示父页(ParentPage)
@@ -226,7 +226,7 @@ void SelItemOfList(u8 index)
 void KeySelItem(u8 key)
 {
     s8 index;
-    if (pPage->pItem[0].TypeAndIndex & 0x10)///<如果是使用列表方式
+    if (pPage->DisplayMode==DISPLAY_MODE_1_COLUMN)///<如果是使用列表方式
     {
         switch(key)
         {

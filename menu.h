@@ -14,7 +14,9 @@
 
 void Menu_Show(void);
 
-
+#define DISPLAY_MODE_0_COLUMN   (0) //全屏显示
+#define DISPLAY_MODE_1_COLUMN   (1) //1列显示
+#define DISPLAY_MODE_2_COLUMN   (2) //2列显示
 
 struct PAGE
 {
@@ -22,15 +24,10 @@ struct PAGE
     void (*Function)(u8 key);
     const struct Item *pItem;
     const u8 ItemNum;
+    const u8 DisplayMode;
 };
 struct Item
 {
-    /**
-    高4位作为特殊用途（bit4=1表示列表显示否则两列显示），低4位用于标记Item的序号  \n
-    如果为列表模式时*pText的格式为：" xx.string",最前面保留一个空格用于个光标(>)使用，xx.为两位序号不要"."一定要有，string是要显示的文字，最多能显示6个汉字  \n
-    如果是两列显示则pText，即为要显示的文本（最多2个汉字）
-    */
-    const u8 TypeAndIndex;
     const u8 *pText;
     const struct PAGE *pChildrenPage;
 };
